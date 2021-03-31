@@ -43,9 +43,8 @@ const fetchPropertiesByAddress = async (args) => {
       address1: street, 
       address2: city + ' ' + state
     }
-  })
-
-  return res.data
+  })  
+  return res.data 
 }
 
 const getMultipleOwnersandGenerateSchema = (propertyData) => {
@@ -90,7 +89,7 @@ const insertLandlords = async (landlordList, context, address) => {
         const res = context.Landlords.findOneAndUpdate(
                       {"firstName": landlord.firstName, "lastName": landlord.lastName}, 
                       {$setOnInsert: landlord}, 
-                      {upsert: true, new: true}, 
+                      {upsert: true, new: true, useFindAndModify: false}, 
                     ).exec()
         return res
       }))
@@ -141,7 +140,7 @@ const insertProperties = async (schema, context) => {
   const property =  await context.RealEstateProperty.findOneAndUpdate(
     {address: schema.address}, 
     {$setOnInsert: schema}, 
-    {upsert: true, new: true}, 
+    {upsert: true, new: true, useFindAndModify: false}, 
   ).exec()
   return property
 }
