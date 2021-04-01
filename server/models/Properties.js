@@ -8,7 +8,7 @@ const options = {
 }
 
 
-const RealEstateProperty = new mongoose.Schema({
+const Properties = new mongoose.Schema({
   landlord: {type: ObjectId, ref: 'Landlords'}, 
   address: {
     streetAddress1: String, 
@@ -25,4 +25,4 @@ const RealEstateProperty = new mongoose.Schema({
   noiseLevelRating: Number, 
   reviews:[{type: ObjectId, ref: 'Reviews'}], 
 }, options)
-module.exports = mongoose.model('realEstateProperty', RealEstateProperty, 'realEstateProperty')
+module.exports = mongoose.model('properties', Properties, 'properties')

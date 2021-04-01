@@ -18,7 +18,8 @@ const LandlordsSchema = new mongoose.Schema({
   maintenanceRating: Number, 
   responsivenessRating: Number, 
   transactionIssue: Number,
-  reviews:[{type: ObjectId, ref: 'Reviews'}],
+  reviews:[{type: ObjectId, ref: 'reviews'}],
+  properties:[{type: ObjectId, ref: 'properties'}]
 }, options)
 
 module.exports = mongoose.model('landlords', LandlordsSchema)

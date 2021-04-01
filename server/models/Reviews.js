@@ -21,11 +21,12 @@ const ReviewsSchema = new mongoose.Schema({
   propertyReview: {
     moveInDate: Date, 
     moveOutDate: Date, 
-    cleanlines: Number, 
+    cleanliness: Number, 
     neighborsVibes: {type: Array, "default": []}, 
     propertyIssues: {type: Array, "default": []}, 
     noiseLevelRating: Number,
-  }
+  },
+  reviewBody: String
 }, options)
 
 module.exports = mongoose.model('reviews', ReviewsSchema)

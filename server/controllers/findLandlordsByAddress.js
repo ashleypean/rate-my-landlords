@@ -4,7 +4,7 @@ const mongoose = require('mongoose')
 
 /*-------------------------------------COMMON HEADERS-------------------------------------*/
 axios.defaults.headers.common['accept'] = 'application/json'
-axios.defaults.headers.common['apikey'] = process.env.ATOM_KEY
+axios.defaults.headers.common['apikey'] = process.env.ATOM_KEY_3
 /*-------------------------------------COMMON HEADERS-------------------------------------*/
 
 
@@ -12,8 +12,9 @@ const findLandlordsByAddress = async (__, args, context) => {
   let propertyList = [{name: "No results found", id: "0", street:  "No results found", city:  "No results found", state:  "No results found", zipcode:  "No results found"}]
   let mainAddress
   let landlordId
+  console.log('finding')
   try {
-    data = await fetchPropertiesByAddress(args)
+    const data = await fetchPropertiesByAddress(args)
     if(data?.property) {
       const { property } = data
       const { address } = property[0]
@@ -25,6 +26,7 @@ const findLandlordsByAddress = async (__, args, context) => {
     }
     return propertyList
   }catch(err) {
+    console.log('error', err)
     return propertyList
   } finally {
     if(mainAddress) {
@@ -34,8 +36,10 @@ const findLandlordsByAddress = async (__, args, context) => {
   }
 }
 
+
 //Fetch data from API to get owner(s) name(s)
 const fetchPropertiesByAddress = async (args) => {
+  console.log('fetching')
   const {street, city, state} = args
   const url = process.env.ATOM_URL_FULL_ADDRESS 
   const res = await axios.get(url, {
@@ -44,6 +48,7 @@ const fetchPropertiesByAddress = async (args) => {
       address2: city + ' ' + state
     }
   })  
+  console.log(res.data)
   return res.data 
 }
 
@@ -137,7 +142,7 @@ const generatePropertySchema = (address, landlordId) => {
 }
 
 const insertProperties = async (schema, context) => {
-  const property =  await context.RealEstateProperty.findOneAndUpdate(
+  const property =  await context.Properties.findOneAndUpdate(
     {address: schema.address}, 
     {$setOnInsert: schema}, 
     {upsert: true, new: true, useFindAndModify: false}, 

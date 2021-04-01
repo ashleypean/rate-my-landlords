@@ -4,7 +4,7 @@ const mongoose = require('mongoose')
 require('dotenv').config()
 const Landlords = require('./models/Landlords')
 const Users = require('./models/Users')
-const RealEstateProperty = require('./models/RealEstateProperty')
+const Properties = require('./models/Properties')
 const Reviews = require('./models/Reviews')
 const resolvers = require('./resolvers')
 const typeDefs = require('./typeDefs')
@@ -22,7 +22,7 @@ const server = new ApolloServer({
   context:  {
     Landlords, 
     Users, 
-    RealEstateProperty, 
+    Properties, 
     Reviews,
   }
 });

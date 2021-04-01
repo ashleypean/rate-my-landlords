@@ -1,6 +1,35 @@
 const { ApolloServer, gql } = require('apollo-server-express');
 
 const typeDefs = gql`
+
+  type Query {
+    hello: String 
+    findLandlordsByAddress(street: String, city: String, state: String, zipcode: String): [LandlordSearchResult] ,
+    findLandordById(id: ID) : String,
+    getProperties: String,
+  }
+
+  type Mutation {
+    addReview(
+    landlord_id: String
+    streetAddress: String
+    reviewBody: String
+    wouldRentAgain: Boolean
+    friendlinessRating: Int
+    communicationRating: Int
+    responsivenessRating: Int
+    maintenanceRating: Int
+    transactionIssues: Boolean
+    moveInDate: String
+    moveOutDate: String
+    cleanliness: Int
+    neighborsVibes: [String]
+    propertyIssues: [String]
+    noiseLevelRating: Int
+    ): AddReviewOutput,
+
+  }
+
   type LandlordSearchResult {
     name: String 
     id: ID 
@@ -26,7 +55,7 @@ const typeDefs = gql`
     cleanliness: Int
     noiseLevel: Int 
     commonPropertyIssues: [String]
-    commonNeighborTrais: [String]
+    commonNeighborTraits: [String]
   }
 
   type LandlordReview {
@@ -71,31 +100,15 @@ const typeDefs = gql`
     zipcode: String
   }
 
-
-  type Query {
-    hello: String 
-    findLandlordsByAddress(street: String, city: String, state: String, zipcode: String): [LandlordSearchResult] 
-    findLandordById(id: ID) : FullLandLordProfile,
-    getProperties: String
-  }
-
-
   input LandlordReviewInputs {
     wouldRentAgain: Boolean
     friendlinessRating: Int
     communicationRating: Int
-    responsiveNessRating: Int
+    responsivenessRating: Int
     maintenanceRating: Int
     transactionIssues: Boolean
   }
-  type LandlordReviewOutputs {
-    wouldRentAgain: Boolean
-    friendlinessRating: Int
-    communicationRating: Int
-    responsiveNessRating: Int
-    maintenanceRating: Int
-    transactionIssues: Boolean
-  }
+
 
   input PropertyReviewInputs {
     moveInDate: String
@@ -105,37 +118,24 @@ const typeDefs = gql`
     propertyIssues: [String]
     noiseLevelRating: Int
   }
-  type PropertyReviewOutputs {
+
+  type AddReviewOutput {
+    wouldRentAgain: Boolean
+    friendlinessRating: Int
+    communicationRating: Int
+    responsivenessRating: Int
+    maintenanceRating: Int
+    transactionIssues: Boolean
     moveInDate: String
     moveOutDate: String
     cleanliness: Int
     neighborsVibes: [String]
     propertyIssues: [String]
     noiseLevelRating: Int
+    reviewBody: String
   }
 
-#   input AddReviewInput {
-#     landlord_id: String 
-#     user_id: String
-#     landlordReview: LandlordReviewInput
-#     propertyReview: PropertyReviewInput
-#   }
 
-#   type AddReviewOutPut {
-#     landlord_id: String 
-#     user_id: String
-#     landlordReview: LandlordReviewInput
-#     propertyReview: PropertyReviewInput
-#   }
-
-  type Mutation {
-    # addReview(input: AddReviewInput): AddReviewOutPut
-    addReview(
-      landlordReviewInputs: LandlordReviewInputs, 
-      propertyReviewInputs: PropertyReviewInputs, 
-    ): LandlordReviewOutputs,
-
-  }
 `;
 
 module.exports = typeDefs;
